@@ -14,6 +14,16 @@ const create = async (req, res) => {
   res.status(201).json(result);
 };
 
+const findAll = async (req, res) => {
+  const token = req.headers.authorization;
+  const validation = jwt.validateToken(token);
+  if (validation.error) return res.status(validation.error.code).json(validation.error.message);
+
+  const result = await categoriesService.findAll();
+  res.status(200).json(result);
+}; 
+
 module.exports = {
   create,
+  findAll,
 };
