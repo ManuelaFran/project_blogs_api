@@ -9,8 +9,14 @@ module.exports = (sequelize, Datatypes) => {
     title: Datatypes.STRING,
     content: Datatypes.STRING,
     userId: Datatypes.INTEGER,
-    published: Datatypes.DATE,
-    updated: Datatypes.DATE,
+    published: {
+      type: Datatypes.DATE,
+      defaultValue: Datatypes.NOW
+    },
+    updated: {
+      type: Datatypes.DATE,
+      defaultValue: Datatypes.NOW
+    },
   },
   {
     tableName: 'blog_posts',
