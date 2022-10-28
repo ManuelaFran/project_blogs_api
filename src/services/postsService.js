@@ -23,17 +23,12 @@ const findByPk = async (id) => {
 
 const update = async (body, id, email) => {
   const user = await User.findOne({ where: { email } });
-  const post = await BlogPost.findByPk(id);
+  const post = await findByPk(id);
   if (user.toJSON().id !== post.toJSON().userId) {
     return { error: { code: 401, message: { message: 'Unauthorized user' } } };
   }
   await BlogPost.update(body, { where: { id } });
-  const updatePost = await BlogPost.findByPk(id, {
-    include: [
-    { model: User, as: 'user', attributes: { exclude: ['password'] } },
-    { model: Category, as: 'categories', through: { attributes: [] } },
-    ],
-  });
+  const updatePost = await findByPk(id);
   return updatePost;
 };
 
