@@ -5,5 +5,6 @@ const route = Router();
 
 route.get('/:id', postsController.findByPk);
 route.get('/', postsController.findAll);
+route.put('/:id', postsController.update);
 
 module.exports = route;
