@@ -1,12 +1,12 @@
 const userService = require('../services/userService');
 const validateUser = require('../middlewares/validateUser');
-const jwt = require('../utils/jwt.util');
 
 const createUser = async (req, res) => {
   try {
     const validation = validateUser(req.body);
     if (validation.error) return res.status(validation.error.code).json(validation.error.message);
     const result = await userService.createUser(req.body);
+
     if (result.error) return res.status(result.error.code).json(result.error.message);
     res.status(201).json({ token: result });
   } catch (error) {
@@ -14,18 +14,12 @@ const createUser = async (req, res) => {
   }
 };
 
-const findAll = async (req, res) => {
-  const token = req.headers.authorization;
-  const validation = jwt.validateToken(token);
-  if (validation.error) return res.status(validation.error.code).json(validation.error.message);
+const findAll = async (_req, res) => {
   const result = await userService.findAll();
   res.status(200).json(result);
 };
 
 const findByPk = async (req, res) => {
-  const token = req.headers.authorization;
-  const validation = jwt.validateToken(token);
-  if (validation.error) return res.status(validation.error.code).json(validation.error.message);
   const { id } = req.params;
   const result = await userService.findByPk(id);
   if (result.error) return res.status(result.error.code).json(result.error.message);
